@@ -8,6 +8,14 @@ It loads vim source from githup and compiles in one rpm package
 
 vagrant exports the rpmbuild directories of the builing host.
 
+#### vim.spec 
+
+The vim.spec is kept easy an includes vim plugins globaly preinstalled.  
+
+- lightline
+- editorconfig
+- ale
+
 #### run vagrant to build the vim package.
 
     vagrant up
