@@ -1,16 +1,16 @@
 vim82 on Redhat/Centos 7
 =======================
 
-Compile vim in a vagrant enviroment
+Compile vim in a vagrant environment.
 
 The SPEC file for building vim package is kept simple.
-It loads vim source from githup and compiles in one rpm package
-
-vagrant exports the rpmbuild directories of the builing host.
+It loads vim source from github and compiles in one rpm package.
+Some files like man pages are removed to avoid dependency errors, when installing beside distropackage.
+The binary is located in /usr/local/bin.
 
 #### vim.spec 
 
-The vim.spec is kept easy an includes vim plugins globaly preinstalled.  
+The vim.spec also includes vim-plugins.  
 
 - lightline
 - editorconfig
