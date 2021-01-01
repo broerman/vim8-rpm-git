@@ -1,0 +1,86 @@
+---
+- hosts: all
+  become: true
+  vars:
+    topdir: "/vagrant/rpmbuild"
+    packager: Bernd Broermann
+
+  tasks:
+    - name: Configure .rpmmacros
+      copy:
+        dest: "~/.rpmmacros"
+        content: |
+          %_topdir {{ topdir }}
+          %packager {{ packager }}
+
+    - name: mkdir rpmbuild directory
+      file:
+        path: "{{ topdir }}"
+        state: directory
+
+    - name: mkdir directories BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ topdir }}/BUILD"
+        - "{{ topdir }}/BUILDROOT"
+        - "{{ topdir }}/RPMS"
+        - "{{ topdir }}/SOURCES"
+        - "{{ topdir }}/SPECS"
+        - "{{ topdir }}/SRPMS"
+
+    - name: "Install required packages"
+      yum:
+        pkg:
+          - ncurses-devel
+          - autoconf
+          - automake
+          - binutils
+          - bison
+          - flex
+          - gcc
+          - gcc-c++
+          - gettext
+          - libtool
+          - make
+          - patch
+          - pkgconfig
+          - redhat-rpm-config
+          - rpm-build
+          - rpm-sign
+          - python2-devel
+          - python3-devel
+          - perl-ExtUtils-Embed
+          - perl-devel
+          - perl-generators
+          - libacl-devel
+          - gpm-devel
+          - libappstream-glib
+          - libselinux-devel
+          - ruby-devel
+          - ruby
+          - lua-devel
+          - desktop-file-utils
+          - gtk3-devel
+          - libX11-devel
+          - libSM-devel
+          - libXt-devel
+          - libXpm-devel
+          - libICE-devel
+          - hunspell-devel
+
+    - name: "Install git package"
+      yum:
+        pkg:
+          - git
+
+    - name: "Copy vim  SPEC file"
+      copy:
+        src: vim.spec
+        dest: "{{ topdir }}/SPECS/vim.spec"
+
+    - name: "Compile with spec file"
+      command:
+        cmd: rpmbuild -ba {{ topdir }}/SPECS/vim.spec
+        creates: "{{ topdir }}/SRPMS/*.rpm"
