@@ -1,4 +1,4 @@
-vim82 on Redhat/Centos 7
+vim82 build for Redhat/Centos 7
 =======================
 
 Compile vim in a vagrant environment.
